@@ -7,7 +7,7 @@
 #include "LcdBsp.h"
 #include "LcdApi.h"
 #include "image.h"
-
+#include "imageMain.h"
 
 /***********************************************************************/
 //此程序适用于七彩光子太极M3—STM32F103开发板及部分兼容的STM32系统，
@@ -38,7 +38,7 @@ int main(void)
 	
 	//LCD_Fill(20,150,20+220,150+24,WHITE);
 	
-	LCD_Color_Fill(0,0,240-1,320-1,(u16*)&gImage_image[0]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
+	LCD_Color_Fill(0,0,240-1,320-1,(u16*)&gImage_image2[0]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
 	
 	
 	

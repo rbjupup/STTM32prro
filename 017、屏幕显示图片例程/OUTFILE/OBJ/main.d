@@ -36,3 +36,4 @@
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_BSP\LcdBsp.h
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_API\LcdApi.h
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_API\image.h
+..\outfile\obj\main.o: ..\HARDWARE\LCD_API\imageMain.h
