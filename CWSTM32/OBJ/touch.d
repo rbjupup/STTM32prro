@@ -30,9 +30,9 @@
 ..\obj\touch.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\touch.o: ..\STM32F10x_FWLib\inc\stm32f10x_wwdg.h
 ..\obj\touch.o: ..\STM32F10x_FWLib\inc\misc.h
-..\obj\touch.o: ..\HARDWARE\LCD\lcd.h
-..\obj\touch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\touch.o: ..\HARDWARE\LCD_BSP\lcdBsp.h
 ..\obj\touch.o: ..\SYSTEM\delay\delay.h
+..\obj\touch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\touch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\touch.o: ..\HARDWARE\24CXX\24cxx.h
 ..\obj\touch.o: ..\HARDWARE\IIC\myiic.h

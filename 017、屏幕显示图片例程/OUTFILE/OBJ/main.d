@@ -37,3 +37,4 @@
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_API\LcdApi.h
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_API\image.h
 ..\outfile\obj\main.o: ..\HARDWARE\LCD_API\imageMain.h
+..\outfile\obj\main.o: ..\HARDWARE\LCD_API\imageBackGround.h

@@ -32,11 +32,14 @@
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\main.o: ..\SYSTEM\delay\delay.h
 ..\obj\main.o: ..\HARDWARE\KEY\key.h
-..\obj\main.o: ..\HARDWARE\LCD\lcd.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\main.o: ..\HARDWARE\24CXX\24cxx.h
 ..\obj\main.o: ..\HARDWARE\IIC\myiic.h
 ..\obj\main.o: ..\HARDWARE\FLASH\flash.h
 ..\obj\main.o: ..\HARDWARE\TOUCH\touch.h
+..\obj\main.o: ..\HARDWARE\LCD_API\LcdApi.h
+..\obj\main.o: ..\HARDWARE\LCD_BSP\lcdBsp.h
+..\obj\main.o: CWSTMdlg.h
+..\obj\main.o: data.h
+..\obj\main.o: ..\PS\image.h

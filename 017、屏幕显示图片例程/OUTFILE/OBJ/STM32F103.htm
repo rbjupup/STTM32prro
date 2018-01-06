@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OUTFILE\OBJ\STM32F103.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OUTFILE\OBJ\STM32F103.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Thu Jan 04 11:28:11 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Sat Jan 06 10:09:24 2018
 <BR><P>
 <H3>Maximum Stack Usage =        216 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -524,8 +524,8 @@ Global Symbols
 <P><STRONG><a name="[66]"></a>LCD_Clear</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, lcdbsp.o(i.LCD_Clear))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = LCD_Clear &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WriteRAM_Prepare
+<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WriteRAM_Prepare
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
@@ -533,8 +533,8 @@ Global Symbols
 <P><STRONG><a name="[69]"></a>LCD_Color_Fill</STRONG> (Thumb, 92 bytes, Stack size 40 bytes, lcdbsp.o(i.LCD_Color_Fill))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = LCD_Color_Fill &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WriteRAM_Prepare
+<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WriteRAM_Prepare
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
 </UL>
 <BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -560,9 +560,7 @@ Global Symbols
 <P><STRONG><a name="[6f]"></a>LCD_Init</STRONG> (Thumb, 938 bytes, Stack size 128 bytes, lcdbsp.o(i.LCD_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = LCD_Init &rArr; LCD_Display_Dir &rArr; LCD_Scan_Dir
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_RD_DATA
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Display_Dir
+<BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Display_Dir
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Clear
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
@@ -572,6 +570,8 @@ Global Symbols
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FSMC_NORSRAMCmd
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_REG
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_RD_DATA
 </UL>
 <BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -579,16 +579,16 @@ Global Symbols
 <P><STRONG><a name="[77]"></a>LCD_RD_DATA</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, lcdbsp.o(i.LCD_RD_DATA))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LCD_RD_DATA
 </UL>
-<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+<BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
 </UL>
 
 <P><STRONG><a name="[76]"></a>LCD_ReadReg</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, lcdbsp.o(i.LCD_ReadReg))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_ReadReg &rArr; LCD_RD_DATA
 </UL>
-<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_RD_DATA
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_REG
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_RD_DATA
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
@@ -631,18 +631,18 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6e]"></a>LCD_WR_DATA</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, lcdbsp.o(i.LCD_WR_DATA))
-<BR><BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
-<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Scan_Dir
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fast_DrawPoint
+<BR><BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fast_DrawPoint
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Scan_Dir
 </UL>
 
 <P><STRONG><a name="[6d]"></a>LCD_WR_REG</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, lcdbsp.o(i.LCD_WR_REG))
-<BR><BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
+<BR><BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fast_DrawPoint
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetCursor
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Scan_Dir
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fast_DrawPoint
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
 
 <P><STRONG><a name="[68]"></a>LCD_WriteRAM_Prepare</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, lcdbsp.o(i.LCD_WriteRAM_Prepare))
@@ -865,7 +865,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ReadReg
 </UL>
 
-<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 190 bytes, Stack size 16 bytes, main.o(i.main))
+<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 238 bytes, Stack size 16 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = main &rArr; Show_Str &rArr; Show_Font &rArr; Get_HzMat
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms

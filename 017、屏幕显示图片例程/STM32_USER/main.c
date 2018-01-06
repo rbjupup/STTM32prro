@@ -8,15 +8,15 @@
 #include "LcdApi.h"
 #include "image.h"
 #include "imageMain.h"
-
+#include "imageBackGround.h"
 /***********************************************************************/
 //此程序适用于七彩光子太极M3—STM32F103开发板及部分兼容的STM32系统，
 //只供学习使用，未经作者许可，不得用于其它任何用途！
 /***********************************************************************/
  
  
-
-
+	u16* imageGroup[3];
+	int i = 0;
 int main(void)
 {
 	//u32 i=0;
@@ -38,14 +38,22 @@ int main(void)
 	
 	//LCD_Fill(20,150,20+220,150+24,WHITE);
 	
-	LCD_Color_Fill(0,0,240-1,320-1,(u16*)&gImage_image2[0]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
 	
+
+	
+	imageGroup[0] = (u16*)&gImage_image2[0];
+	imageGroup[1] = (u16*)&gImage_image[0];
+	imageGroup[2] = (u16*)&gImage_imageBackGround[0];
 	
 	
 	while(1)
 	{
 		LED_TOGGLE(LED0);
-		delay_ms(500);
+		for( i = 0 ; i < 3;i++){
+				LCD_Color_Fill(0,0,240-1,320-1,imageGroup[i]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
+				delay_ms(500);
+		}
+
 
 	}
 }
