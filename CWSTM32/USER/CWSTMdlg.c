@@ -57,12 +57,21 @@ void DEALConTrolUP(int index){
 				//假如点击了NEXT
 				totalFrame[0].m_bpwm = !totalFrame[0].m_bpwm;
 				break;
+			case BUTTON_JUMP: 
+				//假如点了跳一跳
+				LED0 = !LED0;
+				curFrame = &totalFrame[FRAME_CAL];
+				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
+				curFrame->m_bJump = 1;
+				curFrame->m_bpwm = 1;
+				break;
 			case BUTTON_HIGHTIME: 
 				//假如点击了高电平时间
 				LED0 = !LED0;
 				curFrame = &totalFrame[FRAME_CAL];
 				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
 				dataindex = DATA0_LTIME;
+				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totaldata[dataindex].num;
 				break;
 			case BUTTON_LOWTIME: 
 				//假如点击了低电平时间
@@ -70,41 +79,62 @@ void DEALConTrolUP(int index){
 				curFrame = &totalFrame[FRAME_CAL];
 				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
 				dataindex = DATA1_LTIME;
+				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totaldata[dataindex].num;
 				break;
 			case CAL_BUTTON_0:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 0;
 				break;
 			case CAL_BUTTON_0+1:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 1;
 				break;
 			case CAL_BUTTON_0+2:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 2;
 				break;
 			case CAL_BUTTON_0+3:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 3;
 				break;
 			case CAL_BUTTON_0+4:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 4;
 				break;
 			case CAL_BUTTON_0+5:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 5;
 				break;
 			case CAL_BUTTON_0+6:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 6;
 				break;
 			case CAL_BUTTON_0+7:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 7;
 				break;
 			case CAL_BUTTON_0+8:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 8;
 				break;
 			case CAL_BUTTON_0+9:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 9;
 				break;
 			case CAL_BUTTON_BACK:
+				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num/10;
 				break;
 			case CAL_BUTTON_OK:
+				LED0 = !LED0;
+				if(curFrame->m_bJump == 1){
+					tmp = totaldata[0].num;
+					totaldata[0].num = totaldata[1].num;
+					totaldata[1].num = tmp;
+					curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10000;
+					curFrame->m_bStartAJump = 1;
+					break;
+				}
 				curFrame = &totalFrame[FRAME_MAIN];
 				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
 				totaldata[dataindex].num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num;
@@ -186,18 +216,25 @@ void InitGroup(int* group,int x,int y,int x2, int y2){
 	group[3] = y2;
 	
 }
+void InitFrame(int i){
+	totalFrame[i].hadClick = 0;
+	totalFrame[i].hadKey = 0;
+	totalFrame[i].m_bpwm = 0;
+	totalFrame[i].m_bJump = 0;
+	totalFrame[i].m_ndelayTime = 0;
+	totalFrame[i].m_bStartAJump = 0;
+}
 void DLG_Init(){
 	//初始化全部对话框
 	int i;	
 	int pos[12][4];
 	int index[12];
+	Init_Num();
 	for(i = 0 ; i < TOTAL_CTL;i++){
 		totalCTL[i].m_INDEX = i;
 	}
+	InitFrame(FRAME_MAIN);
 	totalFrame[FRAME_MAIN].background = (u16*)&gImage_imageMain[0];
-	totalFrame[FRAME_MAIN].hadClick = 0;
-	totalFrame[FRAME_MAIN].hadKey = 0;
-	totalFrame[FRAME_MAIN].m_bpwm = 0;
 	totalFrame[FRAME_MAIN].numOfData = FRAME1_DATA;
 	totalFrame[FRAME_MAIN].numOfCtrl = Frame1_CtrlNum;
 	//控件初始化
@@ -205,6 +242,10 @@ void DLG_Init(){
 	InitControl(30,105,59,133,totalFrame[FRAME_MAIN].m_ctrl[FC_PRESS],BUTTON_LIGHTPRESS);
 	totalFrame[FRAME_MAIN].m_ctrl[FC_LONG] = &totalCTL[BUTTON_LIGHTLONG];
 	InitControl(30,148,59,176,totalFrame[FRAME_MAIN].m_ctrl[FC_LONG],BUTTON_LIGHTLONG);
+	
+	totalFrame[FRAME_MAIN].m_ctrl[FC_JUMP] = &totalCTL[BUTTON_JUMP];
+	InitControl(28,190,59,220,totalFrame[FRAME_MAIN].m_ctrl[FC_JUMP],BUTTON_JUMP);
+	
 	totalFrame[FRAME_MAIN].m_ctrl[FC_HIGHTIME] = &totalCTL[BUTTON_HIGHTIME];
 	InitControl(77,109,114,179,totalFrame[FRAME_MAIN].m_ctrl[FC_HIGHTIME],BUTTON_HIGHTIME);
 	totalFrame[FRAME_MAIN].m_ctrl[FC_LOWTIME] = &totalCTL[BUTTON_LOWTIME];
@@ -217,13 +258,10 @@ void DLG_Init(){
 	totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME] = &totaldata[DATA1_LTIME];
 	InitData(83,207 ,1500,totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME],DATA1_LTIME,0);
 	
-	
+	InitFrame(FRAME_CAL);
 	totalFrame[FRAME_CAL].background = (u16*)&gImage_CALMain[0];
-	totalFrame[FRAME_CAL].hadClick = 0;
-	totalFrame[FRAME_CAL].hadKey = 0;
-	totalFrame[FRAME_CAL].m_bpwm = 0;
-	totalFrame[FRAME_MAIN].numOfData = FRAME2_DATA;
-	totalFrame[FRAME_MAIN].numOfCtrl = Frame2_CtrlNum;
+	totalFrame[FRAME_CAL].numOfData = FRAME2_DATA;
+	totalFrame[FRAME_CAL].numOfCtrl = Frame2_CtrlNum;
 	
 	//初始化12个按钮的位置
 	InitGroup(pos[0],88,257,124,315); InitGroup(pos[1],150,12,186,71);
@@ -238,10 +276,9 @@ void DLG_Init(){
 	}
 	for(i = 0 ; i < 12;i++){
 		totalFrame[FRAME_CAL].m_ctrl[i] = &totalCTL[index[i]];
-		InitControl(pos[i][0],pos[i][1],pos[i][2],pos[i][3],totalFrame[FRAME_MAIN].m_ctrl[i],index[i]);
+		InitControl(pos[i][0],pos[i][1],pos[i][2],pos[i][3],totalFrame[FRAME_CAL].m_ctrl[i],index[i]);
 	}	
 	
 	totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES] = &totaldata[DATA3_CALRES];
 	InitData(202,25 ,0,totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES],DATA3_CALRES,1);
-	Init_Num();
 }

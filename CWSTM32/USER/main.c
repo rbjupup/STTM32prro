@@ -78,8 +78,8 @@ int main(void)
 //			LED0=!LED0;
 //		}
 //	}
-//	imageGroup[0] = (u16*)&gImage_imageMain1[0];
-//	LCD_Color_Fill(0,0,240-1,320-1,imageGroup[0]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞 
+	imageGroup[0] = (u16*)&gImage_image[0];
+	LCD_Color_Fill(0,0,240-1,320-1,imageGroup[0]);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞 
 	DLG_Init();
 	MainCircle();
 
@@ -90,48 +90,61 @@ void MainCircle()
 {
 	u8 key;
 	int j;
+	int totalTime = 0;
+	int tmp;
 	curFrame = &totalFrame[FRAME_MAIN];
 	LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
 	i = 99;
-//		while(1)
-//	{
-//	 	key=KEY_Scan(0);
-//		tp_dev.scan(0); 		 
-//		if(tp_dev.sta&TP_PRES_DOWN)			//触摸屏被按下
-//		{	
-//		 	if(tp_dev.x<lcddev.width&&tp_dev.y<lcddev.height)
-//			{				
-//  			   Click_Frame(curFrame,tp_dev.x,tp_dev.y);
-//			}
-//		}else {
-//				NClick_Frame(curFrame);	
-//		} 
+		while(1)
+	{
+	 	key=KEY_Scan(0);
+		tp_dev.scan(0); 		 
+		if(tp_dev.sta&TP_PRES_DOWN)			//触摸屏被按下
+		{	
+		 	if(tp_dev.x<lcddev.width&&tp_dev.y<lcddev.height)
+			{				
+  			   Click_Frame(curFrame,tp_dev.x,tp_dev.y);
+			}
+		}else {
+				NClick_Frame(curFrame);	
+		} 
 
-//		if(key>0&&key<5)
-//		{
-//				KEY_Frame(curFrame,key);
-//		}
-//		else
-//		{
-//				NKEY_Frame(curFrame);
-//		}
-//		
-//		//定时刷新数据
-//		i++;
-//		if(i>40000)
-//		{
-//			i=0;
-//			for(j =0 ; j < curFrame->numOfData;j++)
-//				DrawData(curFrame->m_data[j]);
-//		}
-//		if(curFrame->m_bpwm == 1){
-//			PBout(2) = 1;
-//			delay_us(curFrame->m_data[FRAME1_DATA0_LTIME]->num);
-//			PBout(2) = 0;
-//			delay_us(curFrame->m_data[FRAME1_DATA1_LTIME]->num);
-//			i += 10000;
-//		}
-//	}
+		if(key>0&&key<5)
+		{
+				KEY_Frame(curFrame,key);
+		}
+		else
+		{
+				NKEY_Frame(curFrame);
+		}
+		
+		//定时刷新数据
+		i++;
+		if(i>40000)
+		{
+			i=0;
+			for(j =0 ; j < curFrame->numOfData;j++)
+				DrawData(curFrame->m_data[0]);
+		}
+		if(curFrame->m_bpwm == 1){
+			PBout(2) = 1;
+			delay_us(curFrame->m_data[FRAME1_DATA0_LTIME]->num);
+			PBout(2) = 0;
+			delay_us(curFrame->m_data[FRAME1_DATA1_LTIME]->num);
+			i += 10000;
+			if(curFrame->m_bStartAJump ==1){
+				totalTime += curFrame->m_data[FRAME1_DATA0_LTIME]->num;
+				totalTime += curFrame->m_data[FRAME1_DATA1_LTIME]->num;
+				if(totalTime > curFrame->m_ndelayTime){
+					tmp = curFrame->m_data[FRAME1_DATA0_LTIME]->num;
+					curFrame->m_data[FRAME1_DATA0_LTIME]->num = curFrame->m_data[FRAME1_DATA1_LTIME]->num;
+					curFrame->m_data[FRAME1_DATA1_LTIME]->num = tmp;
+					totalTime = 0;
+					curFrame->m_bStartAJump = 0;
+				}
+			}
+		}
+	}
 }
 
 //				if(tp_dev.x>(lcddev.width-24)&&tp_dev.y<16)Load_Drow_Dialog();//清除

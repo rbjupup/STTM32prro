@@ -9,7 +9,7 @@
 #define TOTAL_CTL 20
 #define BUTTON_LIGHTPRESS 0
 #define BUTTON_LIGHTLONG 1
-#define BUTTON_OPEN2 2
+#define BUTTON_JUMP 2
 #define BUTTON_OPEN3 3
 #define BUTTON_OPEN4 4
 #define BUTTON_OPEN5 5
@@ -20,28 +20,29 @@
 #define CAL_BUTTON_OK 19
 
 
-#define Frame1_CtrlNum 4
+#define Frame1_CtrlNum 5
 #define FC_PRESS 0
 #define FC_LONG 1
-#define FC_HIGHTIME 2
-#define FC_LOWTIME 3
+#define FC_JUMP 2
+#define FC_HIGHTIME 3
+#define FC_LOWTIME 4
 
 #define Frame2_CtrlNum 12
 #define Frame2_BUTTON_0 0
 #define Frame2_BUTTON_BACK 10
 #define Frame2_BUTTON_OK 11
 
-#define MAX_CTL_ONFRAME 6
+#define MAX_CTL_ONFRAME TOTAL_CTL
 
 
 
 #define TOTAL_DATA 2
 #define DATA0_LTIME 0
 #define DATA1_LTIME 1
-#define DATA3_CALRES 1
+#define DATA3_CALRES 2
 
 #define FRAME1_DATA 2
-#define FRAME1_DATA0_LTIME 0
+#define FRAME1_DATA0_LTIME 0      
 #define FRAME1_DATA1_LTIME 1
 
 
@@ -72,6 +73,10 @@ typedef struct Frame{
 	data *m_data[FRAME1_DATA];
 	//是否输出PWM
 	int m_bpwm;
+	//跳一跳外挂相关
+	int m_bJump;
+	int m_ndelayTime;
+	int m_bStartAJump;
 } frame;
 //一个控件
 
