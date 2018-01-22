@@ -92,6 +92,7 @@ void MainCircle()
 	int j;
 	int totalTime = 0;
 	int tmp;
+	int initcount = 0;
 	curFrame = &totalFrame[FRAME_MAIN];
 	LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
 	curFrame->m_bJump = 0;
@@ -137,7 +138,13 @@ void MainCircle()
 				PBout(2) = 0;
 				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num);			
 //			}
-
+			if(curFrame->m_pwmMode > 0){
+				initcount++;
+				if( i > curFrame->m_pwmMode){
+					curFrame->m_bpwm = 0;
+					initcount = 0;
+				}
+			}
 			if(curFrame == &totalFrame[FRAME_CAL]){
 				if(curFrame->m_bStartAJump ==1){
 					totalTime += totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num;

@@ -82,6 +82,14 @@ void DEALConTrolUP(int index){
 				dataindex = DATA1_LTIME;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totaldata[dataindex].num;
 				break;
+			case BUTTON_MODE: 
+				//假如点击了低电平时间
+				LED0 = !LED0;
+				curFrame = &totalFrame[FRAME_CAL];
+				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
+				dataindex = DATA3_MODE;
+				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totaldata[dataindex].num;
+				break;
 			case CAL_BUTTON_0:
 				LED0 = !LED0;
 				totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10 + 0;
@@ -175,26 +183,59 @@ void KEY_Frame(frame* myframe,int key ){
 		if(myframe->hadKeyClick == 1)
 			return;
 		myframe->hadKeyClick = 1;
+		myframe->KeyVal = key;
+		//按下
 		if(myframe == &totalFrame[FRAME_CAL])
 		{
 			switch(key){
 				case KEY_RIGHT:
-					LED1 = !LED1;
-					tmp = totaldata[0].num;
-					totaldata[0].num = totaldata[1].num;
-					totaldata[1].num = tmp;
-					curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*0.0233*1000000 ;
-					curFrame->m_bpwm = 1;
-					curFrame->m_bStartAJump = 1;
+					if(myframe->m_bJump == 1){
+						LED1 = !LED1;
+						tmp = totaldata[0].num;
+						totaldata[0].num = totaldata[1].num;
+						totaldata[1].num = tmp;
+						curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*0.0233*1000000 ;
+						curFrame->m_bpwm = 1;
+						curFrame->m_bStartAJump = 1;
+					}
 					break;
 			}
-
+		}
+		if(myframe == &totalFrame[FRAME_MAIN])
+		{
+			switch(key){
+				case KEY_RIGHT:
+					if(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num == 0){
+						myframe->m_bpwm = 1;
+						myframe->m_pwmMode = -1;
+					}
+						break;
+			}
 		}
 }
 void NKEY_Frame(frame* myframe){
 		if(myframe->hadKeyClick == 0)
 			return;
 		myframe->hadKeyClick = 0;
+		//弹起
+		if(myframe == &totalFrame[FRAME_MAIN])
+		{
+			switch(myframe->KeyVal){
+				case KEY_RIGHT:
+					if(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num == 0){
+						myframe->m_bpwm = 0;
+					}
+					else{
+						myframe->m_pwmMode = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num;
+						myframe->m_bpwm = 1;
+					}
+						break;
+				case KEY_LEFT:
+					myframe->m_pwmMode = -1;
+					myframe->m_bpwm = !myframe->m_bpwm;
+						break;
+			}
+		}
 }
 
 void InitControl(int x1, int y1, int x2, int y2,control *ctrl,int ID){
@@ -239,6 +280,7 @@ void InitFrame(int i){
 	totalFrame[i].m_bJump = 0;
 	totalFrame[i].m_ndelayTime = 0;
 	totalFrame[i].m_bStartAJump = 0;
+	totalFrame[i].m_pwmMode = -1;
 }
 void DLG_Init(){
 	//初始化全部对话框
@@ -266,6 +308,8 @@ void DLG_Init(){
 	InitControl(77,109,114,179,totalFrame[FRAME_MAIN].m_ctrl[FC_HIGHTIME],BUTTON_HIGHTIME);
 	totalFrame[FRAME_MAIN].m_ctrl[FC_LOWTIME] = &totalCTL[BUTTON_LOWTIME];
 	InitControl(70,200,114,268,totalFrame[FRAME_MAIN].m_ctrl[FC_LOWTIME],BUTTON_LOWTIME);
+	totalFrame[FRAME_MAIN].m_ctrl[FC_MODE] = &totalCTL[BUTTON_MODE];
+	InitControl(70,25,114,90,totalFrame[FRAME_MAIN].m_ctrl[FC_MODE],BUTTON_MODE);
 	
 	
 	//数据初始化
@@ -273,6 +317,8 @@ void DLG_Init(){
 	InitData(81,114 ,1000,totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME],DATA0_LTIME,0);
 	totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME] = &totaldata[DATA1_LTIME];
 	InitData(83,207 ,1500,totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME],DATA1_LTIME,0);
+	totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE] = &totaldata[DATA3_MODE];
+	InitData(83,30 ,0,totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE],DATA3_MODE,0);
 	
 	InitFrame(FRAME_CAL);
 	totalFrame[FRAME_CAL].background = (u16*)&gImage_CALMain[0];
