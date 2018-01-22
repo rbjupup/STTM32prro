@@ -61,6 +61,8 @@ typedef struct Frame{
 	u16* background;
 	//判断是否在等待移走时间
 	int hadClick;
+	//判断是否按键
+	int hadKeyClick;
 	int clickx;
 	int clicky;
 	int hadKey;

@@ -46,3 +46,4 @@
 ..\obj\cwstmdlg.o: ..\PS\NUM8.h
 ..\obj\cwstmdlg.o: ..\PS\NUM9.h
 ..\obj\cwstmdlg.o: ..\PS\CALMain.h
+..\obj\cwstmdlg.o: ..\HARDWARE\KEY\key.h

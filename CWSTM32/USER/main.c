@@ -94,6 +94,9 @@ void MainCircle()
 	int tmp;
 	curFrame = &totalFrame[FRAME_MAIN];
 	LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
+	curFrame->m_bJump = 0;
+	curFrame->m_bpwm = 0;
+	curFrame->m_bStartAJump = 0;
 	i = 99;
 		while(1)
 	{
@@ -103,6 +106,7 @@ void MainCircle()
 		{	
 		 	if(tp_dev.x<lcddev.width&&tp_dev.y<lcddev.height)
 			{				
+				LED0 = !LED0;
   			   Click_Frame(curFrame,tp_dev.x,tp_dev.y);
 			}
 		}else {
@@ -124,25 +128,30 @@ void MainCircle()
 		{
 			i=0;
 			for(j =0 ; j < curFrame->numOfData;j++)
-				DrawData(curFrame->m_data[0]);
+				DrawData(curFrame->m_data[j]);
 		}
 		if(curFrame->m_bpwm == 1){
-			PBout(2) = 1;
-			delay_us(curFrame->m_data[FRAME1_DATA0_LTIME]->num);
-			PBout(2) = 0;
-			delay_us(curFrame->m_data[FRAME1_DATA1_LTIME]->num);
-			i += 10000;
-			if(curFrame->m_bStartAJump ==1){
-				totalTime += curFrame->m_data[FRAME1_DATA0_LTIME]->num;
-				totalTime += curFrame->m_data[FRAME1_DATA1_LTIME]->num;
-				if(totalTime > curFrame->m_ndelayTime){
-					tmp = curFrame->m_data[FRAME1_DATA0_LTIME]->num;
-					curFrame->m_data[FRAME1_DATA0_LTIME]->num = curFrame->m_data[FRAME1_DATA1_LTIME]->num;
-					curFrame->m_data[FRAME1_DATA1_LTIME]->num = tmp;
-					totalTime = 0;
-					curFrame->m_bStartAJump = 0;
+//			if(curFrame == &totalFrame[FRAME_MAIN]){
+				PBout(2) = 1;
+				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num);
+				PBout(2) = 0;
+				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num);			
+//			}
+
+			if(curFrame == &totalFrame[FRAME_CAL]){
+				if(curFrame->m_bStartAJump ==1){
+					totalTime += totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num;
+					totalTime += totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num;
+					if(totalTime > curFrame->m_ndelayTime){
+						tmp = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num;
+						totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num;
+						totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num = tmp;
+						totalTime = 0;
+						curFrame->m_bStartAJump = 0;
 				}
 			}
+		}
+			i += 10000;
 		}
 	}
 }

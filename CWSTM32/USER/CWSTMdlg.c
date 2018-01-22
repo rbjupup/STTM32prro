@@ -14,7 +14,7 @@
 #include "NUM8.h"
 #include "NUM9.h"
 #include "CALMain.h"
-
+#include "key.h"
 frame totalFrame[TOTAL_FRAME];
 control totalCTL[TOTAL_CTL];
 data totaldata[TOTAL_DATA];
@@ -64,6 +64,7 @@ void DEALConTrolUP(int index){
 				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
 				curFrame->m_bJump = 1;
 				curFrame->m_bpwm = 1;
+				curFrame->m_bStartAJump = 0;
 				break;
 			case BUTTON_HIGHTIME: 
 				//假如点击了高电平时间
@@ -127,16 +128,12 @@ void DEALConTrolUP(int index){
 				break;
 			case CAL_BUTTON_OK:
 				LED0 = !LED0;
-				if(curFrame->m_bJump == 1){
-					tmp = totaldata[0].num;
-					totaldata[0].num = totaldata[1].num;
-					totaldata[1].num = tmp;
-					curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*10000;
-					curFrame->m_bStartAJump = 1;
-					break;
-				}
 				curFrame = &totalFrame[FRAME_MAIN];
 				LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);
+				if(curFrame->m_bJump == 1){
+					curFrame->m_bJump = 0;
+					break;
+				}
 				totaldata[dataindex].num = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num;
 				break;
 			default : 
@@ -155,8 +152,6 @@ int cw1;
 	myframe->hadClick = 1;
 	myframe->clickx = x;
 	myframe->clicky = y;
-//	sprintf(showstr,"(%d,%d)",x,y);
-//	LCD_ShowString(x,y,x+50,y+50,16,(u8*)showstr);
 	for( cw1 = 0 ; cw1 < myframe->numOfCtrl;cw1++){
 		if(overlap(myframe->m_ctrl[cw1]->min,myframe->m_ctrl[cw1]->max,myframe->clickx,myframe->clicky)==1)
 			DEALConTrolDOWN(myframe->m_ctrl[cw1]->m_INDEX);
@@ -166,20 +161,40 @@ void NClick_Frame(frame* myframe){
 			int cw;
 		if(myframe->hadClick == 0)
 			return;
+			myframe->hadClick = 0;
 			//sprintf(showstr,"UP(%d,%d)",myframe->clickx,myframe->clicky);
 			//LCD_ShowString(myframe->clickx,myframe->clicky,myframe->clickx+50,myframe->clicky+50,16,(u8*)showstr);
 			for( cw = 0 ; cw < myframe->numOfCtrl;cw++){
 				if(overlap(myframe->m_ctrl[cw]->min,myframe->m_ctrl[cw]->max,myframe->clickx,myframe->clicky))
 					DEALConTrolUP(myframe->m_ctrl[cw]->m_INDEX);
 			}
-			myframe->hadClick = 0;
 			
 }
 void KEY_Frame(frame* myframe,int key ){
+	int tmp = 0;
+		if(myframe->hadKeyClick == 1)
+			return;
+		myframe->hadKeyClick = 1;
+		if(myframe == &totalFrame[FRAME_CAL])
+		{
+			switch(key){
+				case KEY_RIGHT:
+					LED1 = !LED1;
+					tmp = totaldata[0].num;
+					totaldata[0].num = totaldata[1].num;
+					totaldata[1].num = tmp;
+					curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*0.0233*1000000 ;
+					curFrame->m_bpwm = 1;
+					curFrame->m_bStartAJump = 1;
+					break;
+			}
 
+		}
 }
 void NKEY_Frame(frame* myframe){
-
+		if(myframe->hadKeyClick == 0)
+			return;
+		myframe->hadKeyClick = 0;
 }
 
 void InitControl(int x1, int y1, int x2, int y2,control *ctrl,int ID){
@@ -218,6 +233,7 @@ void InitGroup(int* group,int x,int y,int x2, int y2){
 }
 void InitFrame(int i){
 	totalFrame[i].hadClick = 0;
+	totalFrame[i].hadKeyClick = 0;
 	totalFrame[i].hadKey = 0;
 	totalFrame[i].m_bpwm = 0;
 	totalFrame[i].m_bJump = 0;
