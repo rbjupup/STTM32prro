@@ -101,7 +101,7 @@ void MainCircle()
 	i = 99;
 		while(1)
 	{
-	 	key=KEY_Scan(0);
+	 	key=KEY_Scan(1);
 		tp_dev.scan(0); 		 
 		if(tp_dev.sta&TP_PRES_DOWN)			//´¥ÃþÆÁ±»°´ÏÂ
 		{	
@@ -118,7 +118,7 @@ void MainCircle()
 		{
 				KEY_Frame(curFrame,key);
 		}
-		else
+		else if(key == 0)
 		{
 				NKEY_Frame(curFrame);
 		}
@@ -140,7 +140,7 @@ void MainCircle()
 //			}
 			if(curFrame->m_pwmMode > 0){
 				initcount++;
-				if( i > curFrame->m_pwmMode){
+				if(initcount > curFrame->m_pwmMode){
 					curFrame->m_bpwm = 0;
 					initcount = 0;
 				}

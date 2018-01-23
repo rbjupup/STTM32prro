@@ -15,6 +15,7 @@
 #include "NUM9.h"
 #include "CALMain.h"
 #include "key.h"
+#include "delay.h"
 frame totalFrame[TOTAL_FRAME];
 control totalCTL[TOTAL_CTL];
 data totaldata[TOTAL_DATA];
@@ -209,7 +210,11 @@ void KEY_Frame(frame* myframe,int key ){
 						myframe->m_bpwm = 1;
 						myframe->m_pwmMode = -1;
 					}
-						break;
+					else{
+						myframe->m_pwmMode = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num;
+						myframe->m_bpwm = 1;
+					}
+				break;
 			}
 		}
 }
@@ -217,6 +222,7 @@ void NKEY_Frame(frame* myframe){
 		if(myframe->hadKeyClick == 0)
 			return;
 		myframe->hadKeyClick = 0;
+		
 		//µ¯Æð
 		if(myframe == &totalFrame[FRAME_MAIN])
 		{
@@ -225,11 +231,7 @@ void NKEY_Frame(frame* myframe){
 					if(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num == 0){
 						myframe->m_bpwm = 0;
 					}
-					else{
-						myframe->m_pwmMode = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA2_MODE]->num;
-						myframe->m_bpwm = 1;
-					}
-						break;
+				break;
 				case KEY_LEFT:
 					myframe->m_pwmMode = -1;
 					myframe->m_bpwm = !myframe->m_bpwm;
