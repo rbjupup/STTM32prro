@@ -194,7 +194,7 @@ void KEY_Frame(frame* myframe,int key ){
 						tmp = totaldata[0].num;
 						totaldata[0].num = totaldata[1].num;
 						totaldata[1].num = tmp;
-						curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*0.0233*1000000 ;
+						curFrame->m_ndelayTime = totalFrame[FRAME_CAL].m_data[FRAME2_DATA0_RES]->num*0.00233*1000000 ;
 						curFrame->m_bpwm = 1;
 						curFrame->m_bStartAJump = 1;
 					}
