@@ -11,6 +11,7 @@
 #include "CWSTMdlg.h"
 //#include "0.h"
 #include "image.h"
+#include "timer.h"
 //ALIENTEK战舰STM32开发板实验26
 //触摸屏 实验  
 //技术支持：www.openedv.com
@@ -31,7 +32,8 @@ void Load_Drow_Dialog(void)
 int main(void)
 {	 	
 	delay_init();	    	 //延时函数初始化	  
-	NVIC_Configuration(); 	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
+	NVIC_Configuration(); 	 
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);	 	//串口初始化为9600
  	LED_Init();			     //LED端口初始化
 	LCD_Init();	
@@ -93,6 +95,8 @@ void MainCircle()
 	int totalTime = 0;
 	int tmp;
 	int initcount = 0;
+	int longTime = 0;
+	int shortTime = 0;
 	curFrame = &totalFrame[FRAME_MAIN];
 	LCD_Color_Fill(0,0,240-1,320-1,curFrame->background);//将数组强制转化为u16*,注意图像大小不能超区域,否则可能会跑飞
 	curFrame->m_bJump = 0;
@@ -133,11 +137,22 @@ void MainCircle()
 		}
 		if(curFrame->m_bpwm == 1){
 //			if(curFrame == &totalFrame[FRAME_MAIN]){
-				PBout(2) = 1;
-				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num);
-				PBout(2) = 0;
-				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num);			
+//				PBout(2) = 0;
+//				PCout(2) = 1;
+//				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num);
+//				PBout(2) = 1;
+//				PCout(2) = 0;
+//				delay_us(totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num);			
 //			}
+			if(longTime != totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num || shortTime !=  totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num)
+			{
+				longTime = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA0_LTIME]->num;
+				shortTime = totalFrame[FRAME_MAIN].m_data[FRAME1_DATA1_LTIME]->num;
+				TIM3_PWM_Init(longTime + shortTime - 1 ,70 - 1);	 //WM频率=72000000/72/2500=400hz								 
+				TIM_SetCompare2(TIM3,longTime);		 				 
+				TIM_SetCompare3(TIM3,shortTime);	
+			}
+
 			if(curFrame->m_pwmMode > 0){
 				initcount++;
 				if(initcount > curFrame->m_pwmMode){
@@ -159,6 +174,16 @@ void MainCircle()
 			}
 		}
 			i += 10000;
+		}//END if(curFrame->m_bpwm == 1){
+		else
+		{
+				if(longTime != 0 || shortTime != 0){
+					longTime = 0;
+					shortTime = 0;
+					TIM3_PWM_Init(2500 - 1 ,70 - 1);	 //WM频率=72000000/72/2500=400hz								 
+					TIM_SetCompare2(TIM3,0);		 				 
+					TIM_SetCompare3(TIM3,0);	
+				}
 		}
 	}
 }

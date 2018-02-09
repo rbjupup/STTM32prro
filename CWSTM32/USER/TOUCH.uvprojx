@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\RTC;..\HARDWARE\RTC;..\HARDWARE\WKUP;..\HARDWARE\ADC;..\HARDWARE\DAC;..\HARDWARE\DMA;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\HARDWARE\SPI;..\HARDWARE\FLASH;..\HARDWARE\TOUCH;..\HARDWARE\LCD_BSP;..\HARDWARE\LCD_API;..\PS</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\RTC;..\HARDWARE\RTC;..\HARDWARE\WKUP;..\HARDWARE\ADC;..\HARDWARE\DAC;..\HARDWARE\DMA;..\CORE;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\HARDWARE\SPI;..\HARDWARE\FLASH;..\HARDWARE\TOUCH;..\HARDWARE\LCD_BSP;..\HARDWARE\LCD_API;..\PS;..\HARDWARE\TIMER;..\HALLIB\STM32F1xx_HAL_Driver\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -469,19 +469,9 @@
               <FilePath>.\CWSTMdlg.c</FilePath>
             </File>
             <File>
-              <FileName>CWSTMdlg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\CWSTMdlg.h</FilePath>
-            </File>
-            <File>
               <FileName>data.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\data.c</FilePath>
-            </File>
-            <File>
-              <FileName>data.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\data.h</FilePath>
             </File>
             <File>
               <FileName>LcdBsp.c</FileName>
@@ -489,19 +479,14 @@
               <FilePath>..\HARDWARE\LCD_BSP\LcdBsp.c</FilePath>
             </File>
             <File>
-              <FileName>LcdBsp.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\LCD_BSP\LcdBsp.h</FilePath>
-            </File>
-            <File>
               <FileName>LcdApi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\LCD_API\LcdApi.c</FilePath>
             </File>
             <File>
-              <FileName>LcdApi.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\LCD_API\LcdApi.h</FilePath>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -572,6 +557,11 @@
               <FileName>stm32f10x_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\stm32f10x_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_tim.c</FilePath>
             </File>
           </Files>
         </Group>

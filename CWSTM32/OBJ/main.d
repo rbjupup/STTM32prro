@@ -43,3 +43,4 @@
 ..\obj\main.o: CWSTMdlg.h
 ..\obj\main.o: data.h
 ..\obj\main.o: ..\PS\image.h
+..\obj\main.o: ..\HARDWARE\TIMER\timer.h
